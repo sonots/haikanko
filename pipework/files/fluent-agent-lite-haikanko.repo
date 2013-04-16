@@ -1,0 +1,6 @@
+[fluent-agent-lite-haikanko]
+name=CentOS-$releasever - fluent-agent-lite-haikanko
+baseurl=http://sonots.github.io/fluent-agent-lite-rpm/redhat/$basearch
+enabled=0
+gpgcheck=0
+metadata_expire=0

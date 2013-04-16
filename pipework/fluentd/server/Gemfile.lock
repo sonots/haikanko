@@ -1,0 +1,85 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    bson (1.8.4)
+    bson_ext (1.8.4)
+      bson (~> 1.8.4)
+    cool.io (1.1.0)
+      iobuffer (>= 1.0.0)
+    fluent-mixin-plaintextformatter (0.2.2)
+      fluentd
+      ltsv
+    fluent-plugin-amplifier-filter (0.1.2)
+      fluentd
+    fluent-plugin-config-expander (0.1.2)
+      fluentd
+    fluent-plugin-datacounter (0.4.1)
+      fluentd
+    fluent-plugin-file-alternative (0.1.4)
+      fluent-mixin-plaintextformatter
+      fluentd
+    fluent-plugin-flowcounter (0.1.7)
+      fluentd
+    fluent-plugin-forest (0.1.3)
+      fluentd
+    fluent-plugin-grepcounter (0.0.1)
+      fluentd
+    fluent-plugin-groupcounter (0.1.0)
+      fluentd
+    fluent-plugin-growthforecast (0.1.4)
+      fluentd
+      fluentd (~> 0.10.8)
+      rdoc
+    fluent-plugin-mail (0.0.2)
+      fluentd
+    fluent-plugin-mongo (0.7.0)
+      fluentd (~> 0.10.9)
+      mongo (~> 1.8.0)
+    fluent-plugin-notifier (0.2.1)
+      fluentd
+    fluent-plugin-parser (0.2.3)
+      fluentd
+    fluent-plugin-rewrite (0.0.9)
+      fluentd
+    fluent-plugin-rewrite-tag-filter (1.1.1)
+      fluentd
+    fluent-plugin-sampling-filter (0.1.2)
+      fluentd
+    fluentd (0.10.33)
+      cool.io (~> 1.1.0)
+      http_parser.rb (~> 0.5.1)
+      json (>= 1.4.3)
+      msgpack (>= 0.4.4, < 0.6.0, != 0.5.3, != 0.5.2, != 0.5.1, != 0.5.0)
+      yajl-ruby (~> 1.0)
+    http_parser.rb (0.5.3)
+    iobuffer (1.1.2)
+    json (1.7.7)
+    ltsv (0.1.0)
+    mongo (1.8.4)
+      bson (~> 1.8.4)
+    msgpack (0.5.4)
+    rdoc (4.0.0)
+    yajl-ruby (1.1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bson_ext
+  fluent-plugin-amplifier-filter
+  fluent-plugin-config-expander
+  fluent-plugin-datacounter
+  fluent-plugin-file-alternative
+  fluent-plugin-flowcounter
+  fluent-plugin-forest
+  fluent-plugin-grepcounter
+  fluent-plugin-groupcounter
+  fluent-plugin-growthforecast
+  fluent-plugin-mail
+  fluent-plugin-mongo
+  fluent-plugin-notifier
+  fluent-plugin-parser
+  fluent-plugin-rewrite
+  fluent-plugin-rewrite-tag-filter
+  fluent-plugin-sampling-filter
+  fluentd

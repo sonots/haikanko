@@ -1,0 +1,9 @@
+  <store>
+    type mail
+    host <%= FluentdConfig.mail.try(:host) || "127.0.0.1" %>
+    from <%= from %>
+    to   <%= to %>
+    subject <%= subject %>
+    message total error count: %s\n%s\n<%= log_path %>\n\n%s\n\n--\nreported by fluentd
+    message_out_keys count,input_tag_last,message
+  </store>

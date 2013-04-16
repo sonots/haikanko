@@ -1,0 +1,180 @@
+<form class="form-horizontal" method="post" name="form">
+  <fieldset>
+    <% unless @visualizer.new? %>
+    <div class="control-group">
+      <label class="control-label"><%=h @visualizer.class.human_attribute_name(:id) %></label>
+      <div class="controls">
+        <span class="help-inline"><%=h @visualizer.id %></span>
+      </div>
+    </div>
+    <% end %>
+    <div class="control-group">
+      <label class="control-label"><span class="required">*</span> <%=h @visualizer.class.human_attribute_name(:label) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="visualizer[label]" <%= value_for h(@visualizer.label) %> <%= autofocused_if(@visualizer.new?) %>>
+      </div>
+    </div>
+
+    <div id="role-container">
+      <% 10.times do |i| %>
+        <% role = @visualizer.roles[i] %>
+        <div <%= hidden_if(i >= 1 && role.nil?) %>>
+          <div class="control-group">
+            <label class="control-label"><%= '<span class="required">*</span> ' if i == 0 %><%=h @visualizer.class.human_attribute_name(:role) %> <%= i + 1 %></label>
+            <div class="controls">
+              <input type="text" class="input-xxlarge role-search" name="visualizer[roles][<%= i %>]"
+              <%= role ? value_for(h(role.try(:label))) : "placeholder='#{t('role.search')}'" %>>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="control-group">
+        <div class="controls">
+          <a class="btn btn-mini" id="add-role" href="#">
+            <i class="icon-plus-sign"></i>Add <%= Role.model_name.human %>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div id="host-container">
+      <% 10.times do |i| %>
+        <% host = @visualizer.hosts[i] %>
+        <div <%= hidden_if(host.nil?) %>>
+          <div class="control-group">
+            <label class="control-label"><%=h @visualizer.class.human_attribute_name(:host) %> <%= i + 1 %></label>
+            <div class="controls">
+              <input type="text" class="input-xxlarge" name="visualizer[hosts][<%= i %>]"
+              <%= host ? value_for(h(host.try(:label))) : "" %>>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="control-group">
+        <div class="controls">
+          <a class="btn btn-mini" id="add-host" href="#">
+            <i class="icon-plus-sign"></i>Add <%= Host.model_name.human %>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label"><span class="required">*</span> <%=h @visualizer.class.human_attribute_name(:log_path) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="visualizer[log_path]" <%= value_for h(@visualizer.log_path) %>>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label"><span class="required">*</span> <%=h @visualizer.class.human_attribute_name(:format) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="visualizer[format]" <%= value_for h(@visualizer.format) %>>
+        <span class="help-block"><%= t('visualizer.test_format') %></span>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label"><span class="required">*</span> <%=h @visualizer.class.human_attribute_name(:graphs) %></label>
+      <div class="controls">
+        <input type="checkbox" name="visualizer[graphs][status]"  <%= 'checked="checked"' if @visualizer.status? %>> status
+        <input type="checkbox" name="visualizer[graphs][reqtime]" <%= 'checked="checked"' if @visualizer.reqtime? %>> reqtime
+      </div>
+    </div>
+
+    <% unless @visualizer.notifiable? %>
+    <div class="control-group">
+      <div class="controls">
+        <a class="btn btn-small" id="add-notifier" href="#">
+          <i class="icon-folder-open"></i> <%= t('visualizer.notifier') %>
+        </a>
+      </div>
+    </div>
+    <% end %>
+    <div id="notifier-container" <%= hidden_if(! @visualizer.notifiable?) %>>
+
+    <hr />
+
+    <div class="control-group">
+      <label class="control-label"><%=h @visualizer.class.human_attribute_name(:warn_threshold) %></label>
+      <div class="controls">
+        5xx status <input type="text" class="input-mini" name="visualizer[warn_threshold][status]" <%= value_for h(@visualizer.warn_threshold["status"]) %> placeholder="status">
+        >=4sec reqtime <input type="text" class="input-mini" name="visualizer[warn_threshold][reqtime]" <%= value_for h(@visualizer.warn_threshold["reqtime"]) %> placeholder="reqtime">
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label"><%=h @visualizer.class.human_attribute_name(:crit_threshold) %></label>
+      <div class="controls">
+        5xx status <input type="text" class="input-mini" name="visualizer[crit_threshold][status]" <%= value_for h(@visualizer.crit_threshold["status"]) %> placeholder="status">
+        >=4sec reqtime <input type="text" class="input-mini" name="visualizer[crit_threshold][reqtime]" <%= value_for h(@visualizer.crit_threshold["reqtime"]) %> placeholder="reqtime">
+      </div>
+    </div>
+
+    <div id="irc-container">
+      <% 10.times do |i| %>
+        <% irc = @visualizer.ircs[i] %>
+        <div <%= hidden_if(i >= 1 && irc.nil?) %>>
+          <div class="control-group">
+            <label class="control-label"><%=h @visualizer.class.human_attribute_name(:irc) %> <%= i + 1 %></label>
+            <div class="controls">
+              <input type="text" class="input-xxlarge irc-search" name="visualizer[ircs][<%= i %>]"
+              <%= irc ? value_for(h(irc.try(:label))) : "placeholder='#{t('irc.search')}'" %>>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="control-group">
+        <div class="controls">
+          <a class="btn btn-mini" id="add-irc" href="#">
+            <i class="icon-plus-sign"></i>Add <%= Irc.model_name.human %>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label"><%=h @visualizer.class.human_attribute_name(:email_from) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="visualizer[email_from]" <%= value_for h(@visualizer.email_from) %>>
+      </div>
+    </div>
+
+    <div id="email-container">
+      <% 10.times do |i| %>
+        <% email = @visualizer.emails[i] %>
+        <div <%= hidden_if(i >= 1 && email.nil?) %>>
+          <div class="control-group">
+            <label class="control-label"><%=h @visualizer.class.human_attribute_name(:email) %> <%= i + 1 %></label>
+            <div class="controls">
+              <input type="text" class="input-xxlarge email-search" name="visualizer[emails][<%= i %>]"
+              <%= email ? value_for(h(email.try(:label))) : "placeholder='#{t('email.search')}'" %>>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="control-group">
+        <div class="controls">
+          <a class="btn btn-mini" id="add-email" href="#">
+            <i class="icon-plus-sign"></i>Add <%= Email.model_name.human %>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    </div>
+
+    <div class="control-group">
+      <div class="controls">
+        <%= create_button(@visualizer) %>
+        <%= update_button(@visualizer) %>
+        <%= duplicate_button(@visualizer) %>
+        <%= disable_button(@visualizer) %>
+        <%= enable_button(@visualizer) %>
+        <%= delete_button(@visualizer) %>
+      </div>
+    </div>
+
+  </fieldset>
+</form>
+

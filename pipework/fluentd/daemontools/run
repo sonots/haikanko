@@ -1,0 +1,20 @@
+#!/bin/sh
+exec 2>&1
+exec envdir ./env \
+  sh -c '
+    source /etc/profile
+    cd $APP_ROOT
+    export PATH=$BIN:$PATH
+
+    #copy from /etc/init.d/td-agent
+    # use jemalloc to avoid fragmentation
+    if [ -f "/usr/lib/fluent/jemalloc/lib/libjemalloc.so" ]; then
+      export LD_PRELOAD=/usr/lib/fluent/jemalloc/lib/libjemalloc.so
+    fi
+    if [ -f "/usr/lib64/fluent/jemalloc/lib/libjemalloc.so" ]; then
+      export LD_PRELOAD=/usr/lib64/fluent/jemalloc/lib/libjemalloc.so
+    fi
+
+    exec setuidgid $USER \
+    $BIN/bundle exec $BIN/fluentd -p "${APP_ROOT}/plugin" --log $LOG -c $CONF
+  '

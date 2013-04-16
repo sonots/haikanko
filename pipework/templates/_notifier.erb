@@ -1,0 +1,53 @@
+<match raw.<%= notifier.agent_tag %>.**>
+  type copy
+  <% if FluentdConfig.try(:stdout).try(:raw) %><store>
+    type stdout
+  </store><% end %>
+
+<%= herb :'_flowcounter' %>
+
+  <store>
+    type parser
+    remove_prefix raw
+    key_name message
+    format /^(?<message>.*)$/
+    replace_invalid_sequence true
+    suppress_parse_error_log <%= FluentdConfig.try(:stdout).try(:parser) ? "false" : "true" %>
+  </store>
+</match>
+
+<match <%= notifier.agent_tag %>.**>
+  type copy
+  <% if FluentdConfig.try(:stdout).try(:parser) %><store>
+    type stdout
+  </store><% end %>
+
+  <store>
+    type grepcounter
+    count_interval <%= notifier.count_interval %>
+    input_key message
+    regexp <%= notifier.regexp %>
+    <%= "exclude #{notifier.exclude}" if notifier.exclude.present? %>
+    threshold <%= notifier.threshold %>
+    add_tag_prefix count
+    output_matched_message true
+    output_with_joined_delimiter \n\n
+  </store>
+</match>
+
+<match count.<%= notifier.agent_tag %>.**>
+  type copy
+  <% if FluentdConfig.try(:stdout).try(:counter) %><store>
+    type stdout
+  </store><% end %>
+<%= herb :'_notifier_ikachan', locals: { 
+  subject: notifier.label,
+  ircs: notifier.ircs,
+} if FluentdConfig.try(:ikachan) and notifier.ircs.present? %>
+<%= herb :'_notifier_mail',  locals: {
+  subject: notifier.label,
+  from: notifier.email_from,
+  to: notifier.emails.map(&:email_to).compact.join(","),
+  log_path: notifier.log_path,
+} if FluentdConfig.try(:mail) and notifier.emails.present? %>
+</match>

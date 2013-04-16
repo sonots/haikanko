@@ -1,0 +1,19 @@
+defaults: &defaults
+  debug: false
+  repository: 'git@github.com:sonots/haikanko.git'
+  branch: 'master'
+  host: localhost
+  port: 80
+  bind: false
+
+development:
+  <<: *defaults
+  debug: true
+
+test:
+  <<: *defaults
+  debug: false
+
+staging:
+  <<: *defaults
+  debug: true

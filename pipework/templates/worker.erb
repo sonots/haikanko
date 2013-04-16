@@ -1,0 +1,19 @@
+<source>
+  type forward
+  <%= "bind #{bind}" if FluentdConfig.in_forward.bind %>
+  port <%= port %>
+</source>
+
+<% notifiers.each do |notifier| %>
+<% if notifier.deployable? and notifier.enabled? %>
+<%= herb(:'_notifier', locals: { notifier: notifier })  %>
+<% end %>
+<% end %>
+
+<% visualizers.each do |visualizer| %>
+<% if visualizer.deployable? and visualizer.enabled? %>
+<%= herb(:'_visualizer', locals: { visualizer: visualizer }) %>
+<% end %>
+<% end %>
+
+<%= herb :'_flowcounter_out_file', locals: { bind: bind, port: port } %>

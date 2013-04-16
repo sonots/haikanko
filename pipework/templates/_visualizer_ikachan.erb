@@ -1,0 +1,11 @@
+  <% ircs.each do |irc| %>
+  <store>
+    type ikachan
+    host <%= FluentdConfig.ikachan.try(:host) || "127.0.0.1" %>
+    port <%= FluentdConfig.ikachan.try(:port) || "4979" %>
+    channel <%= irc.try(:channel) %>
+    message [%s] [%s] [%s %s] %s:%s
+    out_keys target_tag,message_time,level,pattern,target_key,value
+    privmsg_message <%= irc.try(:staff) %> :D
+  </store>
+  <% end %>

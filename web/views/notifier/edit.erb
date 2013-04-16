@@ -1,0 +1,8 @@
+<%= erb :'../partials/_alert' %>
+
+<div class="page-header">
+  <h3><%= @notifier.new? ? t('notifier.new') : t('notifier.edit') %></h3>
+</div>
+<%= erb :'_edit_form' %>
+<% @feature = @notifier %>
+<%= erb :'../partials/_deploy_form' %>

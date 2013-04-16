@@ -1,0 +1,22 @@
+<form class="form-horizontal" method="post" name="form">
+  <fieldset>
+    <div class="control-group">
+      <label class="control-label"><%=h @email.class.human_attribute_name(:id) %></label>
+      <div class="controls">
+        <%=h @email.id %>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label"><%=h @email.class.human_attribute_name(:label) %></label>
+      <div class="controls">
+        <%=h @email.label %>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label"><%=h @email.class.human_attribute_name(:email_to) %></label>
+      <div class="controls">
+        <%=h @email.email_to %>
+      </div>
+    </div>
+  </fieldset>
+</form>

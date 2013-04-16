@@ -1,0 +1,71 @@
+<% unless @feature.new? %>
+<br />
+<div class="page-header">
+  <h1 id="deploy">Deploy Fluentd?</h1>
+</div>
+<% deployable = @feature.deployable? %>
+<form class="form-horizontal" method="post" name="deploy">
+  <fieldset>
+    <% unless deployable %>
+    <div class="control-group">
+      <div class="required"><%= t(:'deploy.warn') %></div>
+    </div>
+    <% end %>
+    <div class="control-group">
+      <label class="control-label">
+      </label>
+      <div class="controls">
+        <%= all_deploy_button(@feature.label, deployable) %>
+        <%= all_dryrun_button(@feature.label, deployable) %>
+        <%= all_status_label(@feature) %>
+        All
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label">
+      </label>
+      <div class="controls">
+        <%= all_agent_deploy_button(@feature.label, deployable) %>
+        <%= all_agent_dryrun_button(@feature.label, deployable) %>
+        <%= all_agent_status_label(@feature) %>
+        All Agents
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label">
+      </label>
+      <div class="controls">
+        <%= all_worker_deploy_button(@feature.label, deployable) %>
+        <%= all_worker_dryrun_button(@feature.label, deployable) %>
+        <%= all_worker_status_label(@feature) %>
+        All Workers
+      </div>
+    </div>
+    <% i = 0 %>
+    <% @feature.hostnames.each do |hostname| %>
+      <div class="control-group">
+        <label class="control-label"><%=h "Agent #{i+=1}" %></label>
+        <div class="controls">
+          <%= agent_deploy_button(hostname, deployable) %>
+          <%= agent_dryrun_button(hostname, deployable) %>
+          <%= agent_status_label(@feature, hostname) %>
+          <a href="<%=h agent_href(hostname) %>"><%=h hostname %></a>
+        </div>
+      </div>
+    <% end %>
+    <% hostports = FluentdConfig.workers %>
+    <% hostports.each_with_index do |hostport, i| %>
+      <div class="control-group">
+        <label class="control-label"><%=h "Worker #{i+=1}" %></label>
+        <div class="controls">
+          <%= worker_deploy_button(hostport, deployable) %>
+          <%= worker_dryrun_button(hostport, deployable) %>
+          <%= worker_status_label(@feature, hostport) %>
+          <a href="<%=h worker_href(hostport) %>"><%=h hostport %></a>
+        </div>
+      </div>
+    <% end %>
+  </fieldset>
+</form>
+<% end %>
+

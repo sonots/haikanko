@@ -1,0 +1,168 @@
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery-ui.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/bootstrap-datepicker.min.js"></script>
+<script src="/js/bootstrap-tooltip.min.js"></script>
+<script type="text/javascript">
+  $(function() {
+    $('#start_date').datepicker({
+        format: 'mm-dd-yyyy'
+    });
+    $('#stop_date').datepicker({
+        format: 'mm-dd-yyyy'
+    });
+    $('#expire_date').datepicker({
+        format: 'mm-dd-yyyy'
+    });
+    $('#click_expire_date').datepicker({
+        format: 'mm-dd-yyyy'
+    });
+    $('#send_date').datepicker({
+        format: 'mm-dd-yyyy'
+    });
+
+    $('input.datepicker').datepicker({
+        format: 'mm-dd-yyyy'
+    });
+
+    $('[data-provide="typeahead"]').attr("autocomplete", "off");
+
+    <% if @feature_autocomplete # @todo: fix this fuckin' geneartion of javascript %>
+      $(".feature-search").autocomplete({
+        source: <%= @feature_autocomplete %>,
+        autoFocus: true,
+        minLength: 0,
+        delay: 0
+      });
+
+      $(document).on("focus", ".feature-search", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).autocomplete("search", $(this).val());
+      });
+    <% end %>
+
+    <% if @irc_autocomplete # @todo: fix this fuckin' geneartion of javascript %>
+      $(".irc-search").autocomplete({
+        source: <%= @irc_autocomplete %>,
+        autoFocus: true,
+        minLength: 0,
+        delay: 0
+      });
+
+      $(document).on("focus", ".irc-search", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).autocomplete("search", $(this).val());
+      });
+    <% end %>
+
+    <% if @email_autocomplete %>
+      $(".email-search").autocomplete({
+        source: <%= @email_autocomplete %>,
+        autoFocus: true,
+        minLength: 0,
+        delay: 0
+      });
+
+      $(document).on("focus", ".email-search", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).autocomplete("search", $(this).val());
+      });
+    <% end %>
+
+    <% if @role_autocomplete %>
+      $(".role-search").autocomplete({
+        source: <%= @role_autocomplete %>,
+        autoFocus: true,
+        minLength: 0,
+        delay: 0
+      });
+
+      $(document).on("focus", ".role-search", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).autocomplete("search", $(this).val());
+      });
+    <% end %>
+
+    // cancel enterkey event
+    $(document).on('keypress', '[data-provide="typeahead"]', function(ev){
+      if ((ev.which && ev.which === 13) || (ev.keyCode && ev.keyCode === 13)) {
+        return false;
+      } else {
+        return true;
+      }
+    })
+
+    // <a data-method="post"></a>
+    $(document).on('click', 'a[data-method="post"], a[data-method="put"], a[data-method="delete"]', function() {
+      var $link = $(this),
+      href = $link.attr('href'),
+      method = $link.data('method'),
+      form = $('<form method="post" action="' + href + '"></form>'),
+      metadata_input = '<input name="_method" value="' + method + '" type="hidden" />';
+
+      if($link.attr("disabled")) {
+        return false;
+      }
+
+      if($link.data("confirm")){
+        if(!window.confirm('Really?'))
+          return false;
+      }
+
+      form.hide().append(metadata_input).appendTo('body');
+      form.submit();
+      return false;
+    });
+
+    // <td><dd>
+    $("dd").each(function(index, value) {
+      var $dom = $(value);
+      if($dom.html() == "") {
+        $dom.html("&nbsp;");
+      }
+    });
+
+    if($('[data-show-modal="true"]').length > 0) {
+      $('[data-show-modal="true"]').modal("show");
+    }
+
+    // add button
+    $("#add-role").click(function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      variant = $("#role-container").children().filter(":hidden").first();
+      variant.show("slow");
+    });
+
+    $("#add-host").click(function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      variant = $("#host-container").children().filter(":hidden").first();
+      variant.show("slow");
+    });
+
+    $("#add-irc").click(function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      variant = $("#irc-container").children().filter(":hidden").first();
+      variant.show("slow");
+    });
+
+    $("#add-email").click(function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      variant = $("#email-container").children().filter(":hidden").first();
+      variant.show("slow");
+    });
+
+    $("#add-notifier").click(function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      variant = $("#notifier-container").show("slow");
+    });
+  });
+</script>

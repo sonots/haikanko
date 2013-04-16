@@ -1,0 +1,7 @@
+#!/bin/sh
+exec 2>&1
+exec envdir ../env \
+  sh -c '
+    LOGDIR=$APP_ROOT/log
+    exec multilog $LOGDIR
+  '

@@ -1,0 +1,19 @@
+#!/bin/sh
+exec 2>&1
+exec envdir ./env \
+  sh -c '
+    export HOME="/home/$USER"
+    source $HOME/.bash_profile
+    source $HOME/.bashrc
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+    cd $APP_ROOT
+
+    [ -n "$BIND" ] && BIND_OPT="-o $BIND"
+    [ -n "$PORT" ] && PORT_OPT="-p $PORT"
+    if [ -z "$PORT" -o "$PORT" -ge 1024 ]; then
+      exec setuidgid $USER bundle exec unicorn $PORT_OPT $BIND_OPT -c config/unicorn.conf web/config.ru
+    else
+      exec setuidgid $USER sudo bundle exec unicorn $PORT_OPT $BIND_OPT -c config/unicorn.conf web/config.ru
+    fi
+  '
