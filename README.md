@@ -51,7 +51,6 @@ rbenv with ruby-2.0.0-p0 or later and the `bundler` gem installed
     # CC=/usr/bin/gcc-4.2 RUBY_CONFIGURE_OPTS="--with-readline-dir=`brew --prefix readline` --with-openssl-dir=`brew --prefix openssl`" rbenv install 2.0.0-p0
     # chmod 600 /Users/seo.naotoshi/.gem/credentials
     rbenv rehash
-    rbenv global 2.0.0-p0
 
 ### MongoDB
 
@@ -119,7 +118,7 @@ growthforecast
 
 Run (I use daemontools to daemonize growthforecast actually)
 
-    perl growthforecast.pl --port 5000
+    perl growthforecast.pl --port 5125
 
 
 ## Notifier (Fluentd)
@@ -202,11 +201,14 @@ Install daemontools to your fluentd worker hosts
     rbenv local 2.0.0-p0
     rbenv rehash
     gem install bundler
+    rbenv rehash
     bundle install
     
 ## Run the Haikanko
 
     bundle exec foreman start
+
+You should be able to access Haikanko Web UI via http://your-host:10080. Have a fun with it!
 
 ## Run the test suite
 
