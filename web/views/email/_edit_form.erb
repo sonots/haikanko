@@ -1,0 +1,32 @@
+<form class="form-horizontal" method="post" name="form">
+  <fieldset>
+    <% unless @email.new? %>
+    <div class="control-group">
+      <label class="control-label"><%=h @email.class.human_attribute_name(:id) %></label>
+      <div class="controls">
+        <%=h @email.id %>
+      </div>
+    </div>
+    <% end %>
+    <div class="control-group">
+      <label class="control-label"><span class="required">*</span> <%=h @email.class.human_attribute_name(:label) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="email[label]" <%= value_for h(@email.label) %> <%= autofocused_if(@email.new?) %>>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label"><span class="required">*</span> <%=h @email.class.human_attribute_name(:email_to) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="email[email_to]" <%= value_for h(@email.email_to) %>>
+      </div>
+    </div>
+    <div class="control-group">
+      <div class="controls">
+        <%= create_button(@email) %>
+        <%= update_button(@email) %>
+        <%= duplicate_button(@email) %>
+        <%= delete_button(@email) %>
+      </div>
+    </div>
+  </fieldset>
+</form>

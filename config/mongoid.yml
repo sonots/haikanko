@@ -1,0 +1,60 @@
+defaults: &defaults
+  options:
+    raise_not_found_error: false
+    protect_sensitive_fields: false # Enable create(:_id => 1)
+
+default_session: &default_session
+  options:
+    # We want to send both writes and reads to the master node.
+    # The default consistency is :eventual, which means that reads go to secondaries.
+    # See http://mongoid.org/en/mongoid/docs/installation.html#replica
+    consistency: :strong
+
+sessions_default_defaults: &sessions_default_defaults
+  database: haikanko
+  hosts:
+    - localhost:27017
+
+development:
+  <<: *defaults
+  sessions:
+    default:
+      <<: *sessions_default_defaults
+      database: haikanko_development
+
+test:
+  <<: *defaults
+  sessions:
+    default:
+      <<: *sessions_default_defaults
+      database: haikanko_test
+
+jp_dev:
+  <<: *defaults
+  sessions:
+    default:
+      <<: *sessions_default_defaults
+
+jp_prod:
+  <<: *defaults
+  sessions:
+    default:
+      <<: *default_session
+      <<: *sessions_default_defaults
+
+mx_prod:
+  <<: *defaults
+  sessions:
+    default:
+      <<: *default_session
+      database: haikanko_mx_prod
+      hosts:
+        - localhost:27017
+
+cn_prod:
+  <<: *defaults
+  sessions:
+    default:
+      <<: *default_session
+      <<: *sessions_default_defaults
+

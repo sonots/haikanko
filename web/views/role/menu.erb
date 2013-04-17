@@ -1,0 +1,36 @@
+<%
+  enabled = []
+  disabled = []
+  @roles.each do |role|
+    category = if role.enabled?
+                 enabled
+               elsif role.disabled?
+                 disabled
+               end
+    category << role
+  end if @roles
+  labels = {
+    'label-success'   => enabled,
+    'label-important' => disabled, # 'label-warning'
+  }
+%>
+<% unless Role.readonly? %>
+<div style="padding: 0 0 0 10px;font-variant:small-caps;">
+  <a class="btn btn-large" <%= href_for h('/role/new') %> <%= disabled_if(@role && @role.new?) %>><%=t 'role.setup' %></a>
+</div>
+<% end %>
+<div style="padding: 15px 0;">
+  <ul class="nav nav-pills nav-stacked">
+    <% labels.each_pair do |label, roles| %>
+      <% roles.each do |role| %>
+        <li <%= class_for("active") if @role.try(:id) == role.id %>>
+        <a <%= href_for h("/role/#{role.id}") %>>
+          <span class="label <%=h label %>">&nbsp;</span>
+          <%=h role.label %>
+        </a>
+        </li>
+      <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>

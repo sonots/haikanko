@@ -1,0 +1,10 @@
+  <store>
+    type mail
+    host <%= FluentdConfig.mail.try(:host) || "127.0.0.1" %>
+    from <%= from %>
+    to   <%= to %>
+    subject [%s] <%= subject %> %s:%s
+    subject_out_keys level,target_key,value
+    message %s:%s\n%s\n<%= log_path %>\n\n--\nreported by fluentd
+    message_out_keys target_key,value,target_tag
+  </store>

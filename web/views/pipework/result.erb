@@ -1,0 +1,15 @@
+<%= erb :'../partials/_alert' %>
+
+<div class="page-header">
+  <h3>Result: <%=h @command %></h3>
+</div>
+<pre>
+<%=h @result.stdout %>
+</pre>
+<% if @result.stderr.present? %>
+<span class="label label-important">ERROR!!</span>
+<pre>
+<%=h @result.stderr %>
+</pre>
+<% end %>
+

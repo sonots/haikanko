@@ -1,0 +1,10 @@
+<%= erb :'../partials/_alert' %>
+
+<div class="page-header">
+  <h3><%= @role.new? ? t('role.new') : h(@role.label) %></h3>
+</div>
+<% if @role.class.readonly? %>
+  <%= erb :'_show' %>
+<% else %>
+  <%= erb :'_edit_form' %>
+<% end %>

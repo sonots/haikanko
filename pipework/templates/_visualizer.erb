@@ -1,0 +1,158 @@
+<match raw.<%= visualizer.agent_tag %>.**>
+  type copy
+  <% if FluentdConfig.try(:stdout).try(:raw) %><store>
+    type stdout
+  </store><% end %>
+
+<%= herb :'_flowcounter' %>
+
+  <store>
+    type parser
+    remove_prefix raw
+    key_name message
+    format <%= visualizer.format %>
+    replace_invalid_sequence true
+    suppress_parse_error_log <%= FluentdConfig.try(:stdout).try(:parser) ? "false" : "true" %>
+  </store>
+</match>
+
+<match <%= visualizer.agent_tag %>.**>
+  type copy
+  <% if FluentdConfig.try(:stdout).try(:parser) %><store>
+    type stdout
+  </store><% end %>
+  <% if visualizer.status? %>
+  <store>
+    type datacounter
+    count_interval <%= FluentdConfig.visualizer_counter.try(:count_interval) || "60" %>
+    aggregate tag
+    output_per_tag yes
+    tag_prefix count
+    count_key status
+    pattern1 2xx ^2\d\d$
+    pattern2 3xx ^3\d\d$
+    pattern3 4xx ^4\d\d$
+    pattern4 5xx ^5\d\d$
+  </store>
+  <% end %>
+  <% if visualizer.reqtime? %>
+  <store>
+    type numeric_monitor
+    count_interval <%= FluentdConfig.visualizer_counter.try(:count_interval) || "60" %>
+    aggregate tag
+    tag_prefix monitor
+    monitor_key reqtime
+    output_key_prefix response_time
+    percentiles 99
+  </store>
+
+  <store>
+    type datacounter
+    count_interval <%= FluentdConfig.visualizer_counter.try(:count_interval) || "60" %>
+    aggregate tag
+    output_per_tag yes
+    tag_prefix count
+    count_key reqtime
+    pattern1 <1sec ^0.*$
+    pattern2 <2sec ^1.*$
+    pattern3 <3sec ^2.*$
+    pattern4 <4sec ^3.*$
+    pattern5 >=4sec ^.*$
+  </store>
+  <% end %>
+</match>
+
+<% if visualizer.reqtime? %>
+<match monitor.<%= visualizer.agent_tag %>.**>
+  type copy
+  <% if FluentdConfig.try(:stdout).try(:monitor) %><store>
+    type stdout
+  </store><% end %>
+  <store>
+    type amplifier_filter
+    ratio <%= FluentdConfig.visualizer_counter.try(:reqtime_amplifier) || "1" %>
+    add_prefix amplifier
+    key_pattern _(max|avg|percentile_.*)$
+  </store>
+</match>
+<match amplifier.monitor.<%= visualizer.agent_tag %>.**>
+  type copy
+  <% if FluentdConfig.try(:stdout).try(:monitor) %><store>
+    type stdout
+  </store><% end %>
+  <store>
+    type growthforecast
+    remove_prefix amplifier.monitor.<%= visualizer.agent_tag %>
+    gfapi_url <%= FluentdConfig.growthforecast.try(:uri) || "http://127.0.0.1:5000/api/" %>
+    service <%= visualizer.label %>
+    tag_for section
+    name_keys response_time_max,response_time_percentile_99,response_time_avg
+  </store>
+</match>
+<% end %>
+
+<match count.<%= visualizer.agent_tag %>.**>
+  type copy
+  <% if FluentdConfig.try(:stdout).try(:counter) %><store>
+    type stdout
+  </store><% end %>
+  <%
+    name_keys    = []
+    name_keys   += ['2xx_count,3xx_count,4xx_count,5xx_count'] if visualizer.status?
+    name_keys   += ['<1sec_count,<2sec_count,<3sec_count,<4sec_count,>=4sec_count'] if visualizer.reqtime?
+  %>
+  <store>
+    type growthforecast
+    remove_prefix count.<%= visualizer.agent_tag %>
+    gfapi_url <%= FluentdConfig.growthforecast.try(:uri) || "http://127.0.0.1:5000/api/" %>
+    service <%= visualizer.label %>
+    tag_for section
+    name_keys <%= name_keys.join(',') %>
+  </store>
+
+  <% if visualizer.notifiable? %>
+  <store>
+    type notifier 
+    default_tag_warn notifier.count.<%= visualizer.agent_tag %>
+    default_tag_crit notifier.count.<%= visualizer.agent_tag %>
+    input_tag_remove_prefix count.<%= visualizer.agent_tag %>
+
+    <% if visualizer.status? %>
+    <def>
+      check numeric_upward
+      warn_threshold <%= visualizer.warn_threshold["status"] || "1" %>
+      crit_threshold <%= visualizer.crit_threshold["status"] || "60" %>
+      target_keys 5xx_count
+      pattern <%= visualizer.agent_tag %>
+    </def>
+    <% end %>
+    <% if visualizer.reqtime? %>
+    <def>
+      check numeric_upward
+      warn_threshold <%= visualizer.warn_threshold["reqtime"] || "1" %>
+      crit_threshold <%= visualizer.crit_threshold["reqtime"] || "60" %>
+      target_keys >=4sec_count
+      pattern <%= visualizer.agent_tag %>
+    </def>
+    <% end %>
+  </store> 
+  <% end %>
+</match>
+
+<% if visualizer.notifiable? %>
+<match notifier.count.<%= visualizer.agent_tag %>.**>
+  type copy
+  <% if FluentdConfig.try(:stdout).try(:notifier) %><store>
+    type stdout
+  </store><% end %>
+<%= herb :'_visualizer_ikachan', locals: { 
+  ircs: visualizer.ircs,
+} if FluentdConfig.try(:ikachan) and visualizer.ircs.present? %>
+<%= herb :'_visualizer_mail',  locals: {
+  subject: visualizer.label,
+  from: visualizer.email_from,
+  to: visualizer.emails.map(&:email_to).compact.join(","),
+  log_path: visualizer.log_path,
+} if FluentdConfig.try(:mail) and visualizer.emails.present? %>
+</match>
+<% end %>

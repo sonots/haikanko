@@ -1,0 +1,11 @@
+.bundle
+db/*.sqlite3
+log/*.log
+.sass-cache/
+*~
+*.pid
+.rvmrc
+newrelic_agent_store.db
+*.DS_Store
+*.swp
+vendor/bundle

@@ -1,0 +1,65 @@
+en:
+  notifier:
+    setup: "setup a new notifier"
+    new: "New Notifier"
+    edit: "Edit Notifier"
+  visualizer:
+    setup: "setup a new visualizer"
+    new: "New Visualizer"
+    edit: "Edit Visualizer"
+    notifier: "Open Notification Settings"
+    test_format: 'Want to test a format? You may use <a href="http://fluentular.herokuapp.com/">Fluentular</a>.'
+  irc:
+    setup: "setup a new irc group"
+    new: "New IRC Group"
+    search: "IRC Group Search"
+  email:
+    setup: "setup a new email group"
+    new: "New Email Group"
+    search: "Email Group Search"
+  role:
+    setup: "setup a new role"
+    new: "New Role"
+    search: "Role Search"
+  deploy:
+    warn: "You must fill in all required fields indicated by *. In addition, the log file must exist."
+  mongoid:
+    models:
+      notifier: 'Notifier'
+      visualizer: 'Visualizer'
+      irc: 'IRC Group'
+      email: 'Email Group'
+      host: 'Host'
+      role: 'Host Group'
+    attributes:
+      role:
+        label: 'Role Name'
+        hosts: 'Hosts (comma separated)'
+      email:
+        label: 'Label'
+        email_to: 'Email To (comma separated)'
+      notifier:
+        id: 'Notifier ID'
+        log_path: 'Log Path to Watch'
+        host: 'Host to Watch'
+        role: 'Host Group to Watch'
+        regexp: 'Watch Word (RegExp)'
+        exclude: 'Exclude Word (RegExp)'
+        irc: 'IRC Group to Notify'
+        email_from: 'Email From'
+        email: 'Email Group To'
+        count_interval: 'Count Interval (sec)'
+        threshold: 'Threshold'
+      visualizer:
+        id: 'Visualizer ID'
+        log_path: 'Log Path to Watch'
+        host: 'Host to Watch'
+        role: 'Host Group to Watch'
+        format: 'Log Format'
+        irc: 'IRC Group to Notify'
+        email_from: 'Email From'
+        email: 'Email Group To'
+        warn_threshold: 'Warn Threshold'
+        crit_threshold: 'Crit Threshold'
+        graphs: 'Visualize'
+

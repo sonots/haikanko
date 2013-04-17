@@ -1,0 +1,36 @@
+<%
+  enabled = []
+  disabled = []
+  @ircs.each do |irc|
+    category = if irc.enabled?
+                 enabled
+               elsif irc.disabled?
+                 disabled
+               end
+    category << irc
+  end if @ircs
+  labels = {
+    'label-success'   => enabled,
+    'label-important' => disabled, # 'label-warning'
+  }
+%>
+<% unless Irc.readonly? %>
+<div style="padding: 0 0 0 10px;font-variant:small-caps;">
+  <a class="btn btn-large" <%= href_for h('/irc/new') %> <%= disabled_if(@irc && @irc.new?) %>><%=t 'irc.setup' %></a>
+</div>
+<% end %>
+<div style="padding: 15px 0;">
+  <ul class="nav nav-pills nav-stacked">
+    <% labels.each_pair do |label, ircs| %>
+      <% ircs.each do |irc| %>
+        <li <%= class_for("active") if @irc.try(:id) == irc.id %>>
+        <a <%= href_for h("/irc/#{irc.id}") %>>
+          <span class="label <%=h label %>">&nbsp;</span>
+          <%=h irc.label %>
+        </a>
+        </li>
+      <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>

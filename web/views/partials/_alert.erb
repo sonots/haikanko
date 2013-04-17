@@ -1,0 +1,14 @@
+<% if @success_message ||= success_message %>
+  <div class="alert alert-success fade in">
+    <a class="close" data-dismiss="alert" href="#">&times;</a>
+    <strong><%=h @success_message %></strong>
+  </div>
+<% end %>
+<% if @errors.present? %>
+  <div class="alert alert-block alert-error">
+    <h4 class="alert-heading">Oops!</h4>
+    </br>
+    <p class="code"><%= @errors.full_messages.sort{|a,b| a.downcase <=> b.downcase }.map{|m| h(m)}.join("<br />") %></p>
+  </div>
+<% end %>
+

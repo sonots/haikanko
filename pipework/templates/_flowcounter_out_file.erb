@@ -1,0 +1,6 @@
+<match flowcounter.**>
+  type file
+  path /var/log/fluentd/fluentd<%= "_#{bind}:#{port}" %>/flowcounter
+  time_slice_format %Y%m%d
+  time_format %Y-%m-%dT%H:%M:%S%z
+</match>

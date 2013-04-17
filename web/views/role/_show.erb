@@ -1,0 +1,22 @@
+<form class="form-horizontal" method="post" name="form">
+  <fieldset>
+    <div class="control-group">
+      <label class="control-label"><%=h @role.class.human_attribute_name(:id) %></label>
+      <div class="controls">
+        <%=h @role.id %>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label"><%=h @role.class.human_attribute_name(:label) %></label>
+      <div class="controls">
+        <%=h @role.label %>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label"><%=h @role.class.human_attribute_name(:hosts) %></label>
+      <div class="controls">
+        <%=h @role.hosts.join(", ") %>
+      </div>
+    </div>
+  </fieldset>
+</form>

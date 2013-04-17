@@ -1,0 +1,15 @@
+<div style="padding: 0 0 0 10px;font-variant:small-caps;">
+  <a class="btn btn-large" <%= href_for h('/visualizer/new') %> <%= disabled_if(@visualizer && @visualizer.new?) %>><%=t 'visualizer.setup' %></a>
+</div>
+<div style="padding: 15px 0;">
+  <ul class="nav nav-pills nav-stacked">
+    <% @visualizers.each do |visualizer| %>
+      <li <%= class_for("active") if @visualizer.try(:id) == visualizer.id %>>
+      <a <%= href_for h("/visualizer/#{visualizer.id}") %>>
+        <%= all_status_label(visualizer) %>
+        <%=h visualizer.label %>
+      </a>
+      </li>
+    <% end %>
+  </ul>
+</div>

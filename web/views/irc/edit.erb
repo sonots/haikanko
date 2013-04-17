@@ -1,0 +1,6 @@
+<%= erb :'../partials/_alert' %>
+
+<div class="page-header">
+  <h3><%= @irc.new? ? t('irc.new') : h(@irc.label) %></h3>
+</div>
+<%= erb :'_edit_form' %>
