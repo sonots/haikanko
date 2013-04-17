@@ -1,0 +1,36 @@
+<%
+  enabled = []
+  disabled = []
+  @emails.each do |email|
+    category = if email.enabled?
+                 enabled
+               elsif email.disabled?
+                 disabled
+               end
+    category << email
+  end if @emails
+  labels = {
+    'label-success'   => enabled,
+    'label-important' => disabled, # 'label-warning'
+  }
+%>
+<% unless Email.readonly? %>
+<div style="padding: 0 0 0 10px;font-variant:small-caps;">
+  <a class="btn btn-large" <%= href_for h('/email/new') %> <%= disabled_if(@email && @email.new?) %>><%=t 'email.setup' %></a>
+</div>
+<% end %>
+<div style="padding: 15px 0;">
+  <ul class="nav nav-pills nav-stacked">
+    <% labels.each_pair do |label, emails| %>
+      <% emails.each do |email| %>
+        <li <%= class_for("active") if @email.try(:id) == email.id %>>
+        <a <%= href_for h("/email/#{email.id}") %>>
+          <span class="label <%=h label %>">&nbsp;</span>
+          <%=h email.label %>
+        </a>
+        </li>
+      <% end %>
+      </li>
+    <% end %>
+  </ul>
+</div>

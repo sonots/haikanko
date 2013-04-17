@@ -1,0 +1,57 @@
+defaults: &defaults
+  stdout:
+    raw: false
+    parser: false
+    counter: false
+    monitor: false
+    notifier: true
+  flowcounter:
+    unit: "minute"
+  visualizer_counter:
+    count_interval: 60
+    reqtime_amplifier: 1000000
+  in_forward:
+    bind: false
+
+development: &development
+  <<: *defaults
+  stdout:
+    raw: true
+    parser: true
+    counter: true
+    monitor: false
+    notifier: true
+  flowcounter:
+    unit: "minute"
+  visualizer_counter:
+    count_interval: 5
+    reqtime_amplifier: 1000000
+  growthforecast:
+    uri: "http://127.0.0.1:5125/api/"
+  ikachan:
+    host: localhost
+    port: 4979
+  mail:
+    host: localhost
+  primary_workers:
+    - localhost:22000
+  secondary_workers:
+    - localhost:23000
+
+test:
+  <<: *development
+
+staging:
+  <<: *defaults
+  growthforecast:
+    uri: "http://127.0.0.1:5125/api/"
+  ikachan:
+    host: localhost
+    port: 4979
+  mail:
+    host: localhost
+  primary_workers:
+    - localhost:22000
+  secondary_workers:
+    - localhost:23000
+

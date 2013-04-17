@@ -1,0 +1,10 @@
+  <store>
+    type forest
+    subtype flowcounter
+    <template>
+      count_keys *
+      unit <%= FluentdConfig.flowcounter.try(:unit) || "hour" %>
+      aggregate all
+      tag flowcounter.__TAG__
+    </template>
+  </store>

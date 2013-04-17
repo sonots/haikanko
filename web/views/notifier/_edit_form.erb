@@ -1,0 +1,160 @@
+<form class="form-horizontal" method="post" name="form">
+  <fieldset>
+    <% unless @notifier.new? %>
+    <div class="control-group">
+      <label class="control-label"><%=h @notifier.class.human_attribute_name(:id) %></label>
+      <div class="controls">
+        <span class="help-inline"><%=h @notifier.id %></span>
+      </div>
+    </div>
+    <% end %>
+    <div class="control-group">
+      <label class="control-label"><span class="required">*</span> <%=h @notifier.class.human_attribute_name(:label) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="notifier[label]" <%= value_for h(@notifier.label) %> <%= autofocused_if(@notifier.new?) %>>
+      </div>
+    </div>
+
+    <div id="role-container">
+      <% 10.times do |i| %>
+        <% role = @notifier.roles[i] %>
+        <div <%= hidden_if(i >= 1 && role.nil?) %>>
+          <div class="control-group">
+            <label class="control-label"><%= '<span class="required">*</span> ' if i == 0 %><%=h @notifier.class.human_attribute_name(:role) %> <%= i + 1 %></label>
+            <div class="controls">
+              <input type="text" class="input-xxlarge role-search" name="notifier[roles][<%= i %>]"
+              <%= role ? value_for(h(role.try(:label))) : "placeholder='#{t('role.search')}'" %>>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="control-group">
+        <div class="controls">
+          <a class="btn btn-mini" id="add-role" href="#">
+            <i class="icon-plus-sign"></i>Add <%= Role.model_name.human %>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div id="host-container">
+      <% 10.times do |i| %>
+        <% host = @notifier.hosts[i] %>
+        <div <%= hidden_if(host.nil?) %>>
+          <div class="control-group">
+            <label class="control-label"><%=h @notifier.class.human_attribute_name(:host) %> <%= i + 1 %></label>
+            <div class="controls">
+              <input type="text" class="input-xxlarge" name="notifier[hosts][<%= i %>]"
+              <%= host ? value_for(h(host.try(:label))) : "" %>>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="control-group">
+        <div class="controls">
+          <a class="btn btn-mini" id="add-host" href="#">
+            <i class="icon-plus-sign"></i>Add <%= Host.model_name.human %>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label"><span class="required">*</span> <%=h @notifier.class.human_attribute_name(:log_path) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="notifier[log_path]" <%= value_for h(@notifier.log_path) %>>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label"><span class="required">*</span> <%=h @notifier.class.human_attribute_name(:regexp) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="notifier[regexp]" <%= value_for h(@notifier.regexp) %>>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label"><%=h @notifier.class.human_attribute_name(:exclude) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="notifier[exclude]" <%= value_for h(@notifier.exclude) %>>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label"><span class="required">*</span> <%=h @notifier.class.human_attribute_name(:count_interval) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="notifier[count_interval]" <%= value_for h(@notifier.count_interval) %>>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label"><span class="required">*</span> <%=h @notifier.class.human_attribute_name(:threshold) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="notifier[threshold]" <%= value_for h(@notifier.threshold) %>>
+      </div>
+    </div>
+
+    <hr />
+
+    <div id="irc-container">
+      <% 10.times do |i| %>
+        <% irc = @notifier.ircs[i] %>
+        <div <%= hidden_if(i >= 1 && irc.nil?) %>>
+          <div class="control-group">
+            <label class="control-label"><%= '<span class="required">*</span> ' if i == 0 %><%=h @notifier.class.human_attribute_name(:irc) %> <%= i + 1 %></label>
+            <div class="controls">
+              <input type="text" class="input-xxlarge irc-search" name="notifier[ircs][<%= i %>]"
+              <%= irc ? value_for(h(irc.try(:label))) : "placeholder='#{t('irc.search')}'" %>>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="control-group">
+        <div class="controls">
+          <a class="btn btn-mini" id="add-irc" href="#">
+            <i class="icon-plus-sign"></i>Add <%= Irc.model_name.human %>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label"><%=h @notifier.class.human_attribute_name(:email_from) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="notifier[email_from]" <%= value_for h(@notifier.email_from) %>>
+      </div>
+    </div>
+
+    <div id="email-container">
+      <% 10.times do |i| %>
+        <% email = @notifier.emails[i] %>
+        <div <%= hidden_if(i >= 1 && email.nil?) %>>
+          <div class="control-group">
+            <label class="control-label"><%= '<span class="required">*</span> ' if i == 0 %><%=h @notifier.class.human_attribute_name(:email) %> <%= i + 1 %></label>
+            <div class="controls">
+              <input type="text" class="input-xxlarge email-search" name="notifier[emails][<%= i %>]"
+              <%= email ? value_for(h(email.try(:label))) : "placeholder='#{t('email.search')}'" %>>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <div class="control-group">
+        <div class="controls">
+          <a class="btn btn-mini" id="add-email" href="#">
+            <i class="icon-plus-sign"></i>Add <%= Email.model_name.human %>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="controls">
+        <%= create_button(@notifier) %>
+        <%= update_button(@notifier) %>
+        <%= duplicate_button(@notifier) %>
+        <%= disable_button(@notifier) %>
+        <%= enable_button(@notifier) %>
+        <%= delete_button(@notifier) %>
+      </div>
+    </div>
+
+  </fieldset>
+</form>
+

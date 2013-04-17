@@ -1,0 +1,15 @@
+<div style="padding: 0 0 0 10px;font-variant:small-caps;">
+  <a class="btn btn-large" <%= href_for h('/notifier/new') %> <%= disabled_if(@notifier && @notifier.new?) %>><%=t 'notifier.setup' %></a>
+</div>
+<div style="padding: 15px 0;">
+  <ul class="nav nav-pills nav-stacked">
+    <% @notifiers.each do |notifier| %>
+      <li <%= class_for("active") if @notifier.try(:id) == notifier.id %>>
+      <a <%= href_for h("/notifier/#{notifier.id}") %>>
+        <%= all_status_label(notifier) %>
+        <%=h notifier.label %>
+      </a>
+      </li>
+    <% end %>
+  </ul>
+</div>

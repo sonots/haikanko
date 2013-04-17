@@ -1,0 +1,32 @@
+<form class="form-horizontal" method="post" name="form">
+  <fieldset>
+    <% unless @role.new? %>
+    <div class="control-group">
+      <label class="control-label"><%=h @role.class.human_attribute_name(:id) %></label>
+      <div class="controls">
+        <%=h @role.id %>
+      </div>
+    </div>
+    <% end %>
+    <div class="control-group">
+      <label class="control-label"><span class="required">*</span> <%=h @role.class.human_attribute_name(:label) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="role[label]" <%= value_for h(@role.label) %> <%= autofocused_if(@role.new?) %>>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label"><span class="required">*</span> <%=h @role.class.human_attribute_name(:hosts) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="role[hosts]" <%= value_for h((@role.hosts || []).join(", ")) %>>
+      </div>
+    </div>
+    <div class="control-group">
+      <div class="controls">
+        <%= create_button(@role) %>
+        <%= update_button(@role) %>
+        <%= duplicate_button(@role) %>
+        <%= delete_button(@role) %>
+      </div>
+    </div>
+  </fieldset>
+</form>

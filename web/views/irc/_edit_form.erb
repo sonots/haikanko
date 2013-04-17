@@ -1,0 +1,38 @@
+<form class="form-horizontal" method="post" name="form">
+  <fieldset>
+    <% unless @irc.new? %>
+    <div class="control-group">
+      <label class="control-label"><%=h @irc.class.human_attribute_name(:id) %></label>
+      <div class="controls">
+        <%=h @irc.id %>
+      </div>
+    </div>
+    <% end %>
+    <div class="control-group">
+      <label class="control-label"><span class="required">*</span> <%=h @irc.class.human_attribute_name(:label) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="irc[label]" <%= value_for h(@irc.label) %> <%= autofocused_if(@irc.new?) %>>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label"><span class="required">*</span> <%=h @irc.class.human_attribute_name(:channel) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="irc[channel]" <%= value_for h(@irc.channel) %>>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label"><%=h @irc.class.human_attribute_name(:staff) %></label>
+      <div class="controls">
+        <input type="text" class="input-xxlarge" name="irc[staff]" <%= value_for h(@irc.staff) %>>
+      </div>
+    </div>
+    <div class="control-group">
+      <div class="controls">
+        <%= create_button(@irc) %>
+        <%= update_button(@irc) %>
+        <%= duplicate_button(@irc) %>
+        <%= delete_button(@irc) %>
+      </div>
+    </div>
+  </fieldset>
+</form>

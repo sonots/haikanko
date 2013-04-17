@@ -1,0 +1,5 @@
+source 'https://rubygems.org'
+
+gem 'fluent-plugin-tail-asis'
+gem 'fluent-plugin-config-expander'
+gem 'fluent-plugin-keep-forward'

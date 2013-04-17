@@ -1,0 +1,8 @@
+<%= erb :'../partials/_alert' %>
+
+<div class="page-header">
+  <h3><%= @visualizer.new? ? t('visualizer.new') : t('visualizer.edit') %></h3>
+</div>
+<%= erb :'_edit_form' %>
+<% @feature = @visualizer %>
+<%= erb :'../partials/_deploy_form' %>

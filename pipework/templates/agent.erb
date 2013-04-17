@@ -1,0 +1,25 @@
+# pre-process
+hostname=$(hostname)
+mkdir -p /etc/fluent-agent-lite
+cat <<"EOF" > /etc/fluent-agent-lite/primary_servers_list.conf
+<% primary_servers.each do |hostport| %><%= "#{hostport}\n" %><% end %>
+EOF
+<% if secondary_servers.present? %>
+cat <<"EOF" > /etc/fluent-agent-lite/secondary_servers_list.conf
+<% secondary_servers.each do |hostport| %><%= "#{hostport}\n" %><% end %>
+EOF
+<% end %>
+# configuration
+TAG_PREFIX=raw
+LOGS=$(cat <<EOF
+<% features.each do |feature| %>
+<% if feature.deployable? and feature.enabled? %>
+<%= "#{feature.agent_tag}.$hostname #{feature.log_path}\n" %>
+<% end %>
+<% end %>
+EOF)
+PRIMARY_SERVERS_LIST=/etc/fluent-agent-lite/primary_servers_list.conf
+<% if secondary_servers.present? %>SECONDARY_SERVERS_LIST=/etc/fluent-agent-lite/secondary_servers_list.conf
+<% end %>
+LOG_PATH=/var/log/fluent-agent-lite/fluent-agent.log
+KEEPALIVE_TIME=0
