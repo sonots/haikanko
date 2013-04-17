@@ -3,7 +3,7 @@ defaults: &defaults
   repository: 'git@github.com:sonots/haikanko.git'
   branch: 'master'
   host: localhost
-  port: 80
+  port: 10080
   bind: false
 
 development:
@@ -17,3 +17,4 @@ test:
 staging:
   <<: *defaults
   debug: true
+  port: 80
