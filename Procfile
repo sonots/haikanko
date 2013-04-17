@@ -1,1 +1,1 @@
-web:  bundle exec unicorn -p 10081 -c config/unicorn.conf web/config.ru
+web:  bundle exec unicorn -p 10080 -c config/unicorn.conf web/config.ru
