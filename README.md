@@ -18,16 +18,16 @@ With Haikanko, you can
 - Generate fluend configuration files for each node achieving the specified fluend cluster feature
 - Deploy these configuration files by one-click
 
-Currently, Haikanko supports below features
+Currently, Haikanko supports below fluentd cluster features
 
 - Notifier: Watch log files and notifies via IRC or Email if watching keyword is detected
 - Visualizer: Visualize metrics obtained from log files
 
-# Requirements
+# Dependencies
 
-## Haikanko
+## Haikanko (Mandatory)
 
-Haikanko requires belows:
+Install belows for Haikanko:
 
 ### Ruby
 
@@ -54,7 +54,7 @@ rbenv with ruby-2.0.0-p0 or later and the `bundler` gem installed
 
 ### MongoDB
 
-Used as a Haikanko Web Data Store
+Used as a Haikanko Web Data Store:
 
 i386
 
@@ -91,9 +91,29 @@ Try
     mongo> db.help()
     mongo> db.[collection_name].find()
 
-## Visualizer (Fluentd)
+## Fluentd Worker (Mandatory)
 
-Haikanko's Visualizer feature requires belows:
+### daemontools
+
+Haikanko is currently taking a fluentd cluster architecture drawn as below:
+
+![fluentd-cluster.png](https://cacoo.com/diagrams/Igc0LFNGavNdG2Ku-CABDD.png?t=1365694058684)
+
+To utilize the CPU resource of worker servers, multiple worker processes should be invoked at a host (typically, the number of processes equals to the number of cores of CPU) with different port numbers. Haikanko uses [daemontools](http://cr.yp.to/daemontools.html) to do it. 
+
+Install daemontools to your fluentd worker hosts
+
+    # yum install daemontools daemontools-toaster
+    # echo "SV:12345:respawn:/usr/local/bin/svscanboot" >> /etc/inittab
+    # kill -HUP 1
+
+## Fluentd Agent
+
+Requires nothing. Haikanko takes care of them. 
+
+## Visualizer (Optional)
+
+Install belows if you want to use Haikanko's Visualizer feature:
 
 ### GrowthForecast
 
@@ -121,9 +141,9 @@ Run (I use daemontools to daemonize growthforecast actually)
     perl growthforecast.pl --port 5125
 
 
-## Notifier (Fluentd)
+## Notifier (Optional)
 
-Haikanko's Notifier feature requires belows:
+Install belows if you want to use Haikanko's Notifier feature:
 
 ### postfix
 
@@ -174,22 +194,6 @@ Try
 
     curl -F channel=#fluentd-warn http://127.0.0.1:4979/join
     curl -F channel=#fluentd-warn -F message="Hello Haikanko!" http://127.0.0.1:4979/notice
-
-## Fluentd Worker
-
-### daemontools
-
-Haikanko is currently taking the fluentd cluster architecture drawn as below:
-
-![fluentd-cluster.png](https://cacoo.com/diagrams/Igc0LFNGavNdG2Ku-CABDD.png?t=1365694058684)
-
-To utilize the CPU resource of worker servers, multiple worker processes should be invoked at a host (typically, the number of processes equals to the number of cores of CPU) with different port numbers. Haikanko uses [daemontools](http://cr.yp.to/daemontools.html) to do it. 
-
-Install daemontools to your fluentd worker hosts
-
-    # yum install daemontools daemontools-toaster
-    # echo "SV:12345:respawn:/usr/local/bin/svscanboot" >> /etc/inittab
-    # kill -HUP 1
 
 # Development
 
