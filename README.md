@@ -225,3 +225,15 @@ Edit the `config/haikanko.yml`, `config/fluentd.yml`, and `config/mongoid.yml`.
 # Deployments and CLI
 
 Haikanko provides a Web UI interfaces, but it does not provide all functions which Haikanko have. See [CLI.md](CLI.md).
+
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new [Pull Request](../../pull/new/master)
+
+## Copyright
+
+Copyright (c) 2013 Naotoshi SEO. See [LICENSE](LICENSE) for details.
