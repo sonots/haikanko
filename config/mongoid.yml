@@ -29,32 +29,8 @@ test:
       <<: *sessions_default_defaults
       database: haikanko_test
 
-jp_dev:
+staging:
   <<: *defaults
   sessions:
     default:
       <<: *sessions_default_defaults
-
-jp_prod:
-  <<: *defaults
-  sessions:
-    default:
-      <<: *default_session
-      <<: *sessions_default_defaults
-
-mx_prod:
-  <<: *defaults
-  sessions:
-    default:
-      <<: *default_session
-      database: haikanko_mx_prod
-      hosts:
-        - localhost:27017
-
-cn_prod:
-  <<: *defaults
-  sessions:
-    default:
-      <<: *default_session
-      <<: *sessions_default_defaults
-
