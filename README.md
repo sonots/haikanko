@@ -25,6 +25,8 @@ Currently, Haikanko supports below fluentd cluster features
 
 # Dependencies
 
+Tested on CentOS 5.8, 6.2.
+
 ## Haikanko (Mandatory)
 
 Install belows for Haikanko:
