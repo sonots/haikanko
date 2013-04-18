@@ -197,7 +197,7 @@ Install daemontools to your fluentd worker hosts
 
     git clone https://github.com/sonots/haikanko
     cd haikanko
-    sudo yum install -y libxslt-devel libxml2devel
+    sudo yum install -y libxslt-devel libxml2-devel
     rbenv local 2.0.0-p0
     rbenv rehash
     gem install bundler
