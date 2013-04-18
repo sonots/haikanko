@@ -62,7 +62,6 @@ Other `worker` commands are also available:
 * worker:status
 * worker:stop
 * worker:restart
-* worker:force_stop
 
 ## Cluster Restart
 
