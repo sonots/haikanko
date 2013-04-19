@@ -9,3 +9,4 @@ newrelic_agent_store.db
 *.DS_Store
 *.swp
 vendor/bundle
+coverage/

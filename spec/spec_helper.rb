@@ -5,6 +5,8 @@ require 'bundler/setup'
 Bundler.require(:default, :test)
 require_relative '../web/boot'
 require 'capybara/rspec'
+require 'coveralls'
+Coveralls.wear!
 
 Dir["#{Bootloader.root_path}/spec/*/spec_helper.rb"].each { |f| require f }
 Dir["#{Bootloader.root_path}/spec/support/**/*.rb"].each { |f| require f }

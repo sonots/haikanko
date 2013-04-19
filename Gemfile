@@ -33,5 +33,6 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'delorean'
   gem 'capybara'
+  gem 'coveralls', require: false
   # gem 'capybara-webkit', git: 'https://github.com/thoughtbot/capybara-webkit', tag: "v0.14.1"
 end

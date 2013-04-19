@@ -1,4 +1,4 @@
-# Haikanko [![Build Status](https://secure.travis-ci.org/sonots/haikanko.png?branch=master)](http://travis-ci.org/sonots/haikanko) [![Code Climate](https://codeclimate.com/github/sonots/haikanko.png)](https://codeclimate.com/github/sonots/haikanko)
+# Haikanko [![Build Status](https://secure.travis-ci.org/sonots/haikanko.png?branch=master)](http://travis-ci.org/sonots/haikanko) [![Code Climate](https://codeclimate.com/github/sonots/haikanko.png)](https://codeclimate.com/github/sonots/haikanko) [![Coverage Status](https://coveralls.io/repos/sonots/haikanko/badge.png?branch=master)](https://coveralls.io/r/sonots/haikanko)
 
 Haikanko is a management tool of fluentd cluster
 

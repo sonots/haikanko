@@ -36,10 +36,17 @@ GEM
       xpath (~> 2.0)
     chronic (0.9.1)
     coderay (1.0.9)
+    colorize (0.5.8)
     configurability (2.0.0)
       loggability (~> 0.4)
     cool.io (1.1.0)
       iobuffer (>= 1.0.0)
+    coveralls (0.6.3)
+      colorize
+      multi_json (~> 1.3)
+      rest-client
+      simplecov (>= 0.7)
+      thor
     delorean (2.1.0)
       chronic
     diff-lcs (1.2.3)
@@ -109,6 +116,8 @@ GEM
     raindrops (0.10.0)
     rake (10.0.4)
     rb-fsevent (0.9.3)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
@@ -117,6 +126,10 @@ GEM
     rspec-expectations (2.13.0)
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.13.1)
+    simplecov (0.7.1)
+      multi_json (~> 1.0)
+      simplecov-html (~> 0.7.1)
+    simplecov-html (0.7.1)
     sinatra (1.4.2)
       rack (~> 1.5, >= 1.5.2)
       rack-protection (~> 1.4)
@@ -148,6 +161,7 @@ DEPENDENCIES
   activesupport
   bootloader!
   capybara
+  coveralls
   delorean
   dropkick
   fabrication
