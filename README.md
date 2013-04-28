@@ -2,7 +2,7 @@
 
 Haikanko is a management tool of fluentd cluster
 
-![haikanko_log.png](https://raw.github.com/sonots/haikanko/use_logo/web/public/img/haikanko_logo.png)
+![haikanko_log.png](https://raw.github.com/sonots/haikanko/master/web/public/img/haikanko_logo.png)
 
 ## Why we need Haikanko?
 
